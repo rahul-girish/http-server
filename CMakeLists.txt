@@ -16,6 +16,20 @@ target_sources(server
             include/server.h
 )
 
+add_library(linkedlist)
+
+target_sources(linkedlist
+    PRIVATE
+    src/linkedlist.c
+
+    PUBLIC
+        FILE_SET HEADERS
+        BASE_DIRS
+            include
+        FILES
+            include/linkedlist.h
+)
+
 add_executable(main)
 
 target_sources(main

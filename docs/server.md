@@ -30,4 +30,4 @@ There is also an init function for the server struct:
 struct Server server_init(int port, int backlog, void (*start)(struct Server*));
 ```
 
-An example of how to use this struct is given in `tests/server_test.c`
+An example of how to use this struct is given in `tests/server_test.c`. The comments in the source files should also prove useful.
