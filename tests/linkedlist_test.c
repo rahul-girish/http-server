@@ -18,8 +18,10 @@ struct list_int *list_int_init(int data)
     return node;
 }
 
-void list_int_del(struct list_int *node)
+void list_int_del(struct list_int *node, struct list *head)
 {
+    if (list_entry_is_head(node, head, list))
+        return;
     list_del_init(&node->list);
     printf("freed memory for %d\n", node->data);
     free(node);
@@ -48,11 +50,14 @@ int main(void)
             list_add(&node1->list, &head);
             break;
         case 2:
-            node1 = container_of(head.next, struct list_int, list);
-            list_int_del(node1);
+            if (!list_empty(&head))
+            {
+                node1 = container_of(head.next, struct list_int, list);
+                list_int_del(node1, &head);
+            }
             break;
         case 3:
-            list_for_each_entry(node1, struct list_int, list, &head)
+            list_for_each_entry(node1, &head, list)
             {
                 printf("%d ", node1->data);
             }
@@ -60,9 +65,10 @@ int main(void)
         }
     }
 
-    list_for_each_entry_safe(node1, struct list_int, list, &head)
+    struct list_int *temp;
+    list_for_each_entry_safe(node1, temp, &head, list)
     {
-        list_int_del(node1);
+        list_int_del(node1, &head);
     }
 
     return 0;
